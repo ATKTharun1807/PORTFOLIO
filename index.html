@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tharun Kumar S — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Portfolio — Tharun Kumar S | Cybersecurity & Fullstack Enthusiast" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
+
+    :root {
+      --accent-primary: #7c3aed;
+      --accent-secondary: #0ea5e9;
+      --bg-gradient: radial-gradient(circle at top right, #0a0a0f 0%, #050505 100%);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --nav-bg: rgba(10, 10, 15, 0.7);
+    }
+
+    [data-theme="light"] {
+      --accent-primary: #6366f1;
+      --accent-secondary: #0ea5e9;
+      --bg-gradient: radial-gradient(circle at top right, #f8fafc 0%, #f1f5f9 100%);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(99, 102, 241, 0.15);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --nav-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    * {
+      transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Outfit', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* Mesh Gradient Background */
+    .mesh-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.5;
+      filter: blur(100px);
+    }
+
+    .mesh-ball {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 20s infinite alternate;
+    }
+
+    .ball-1 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent-primary);
+      top: -10%;
+      right: -5%;
+      opacity: 0.2;
+    }
+
+    .ball-2 {
+      width: 350px;
+      height: 350px;
+      background: var(--accent-secondary);
+      bottom: -10%;
+      left: -5%;
+      opacity: 0.15;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(50px, 100px) rotate(15deg);
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .card:hover {
+      border-color: rgba(124, 58, 237, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1rem;
+      right: 1rem;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .project-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #fff !important;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+    }
+
+    #themeToggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-gradient);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-primary);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body data-theme="dark" class="min-h-screen antialiased">
+  <div class="mesh-bg">
+    <div class="mesh-ball ball-1"></div>
+    <div class="mesh-ball ball-2"></div>
+  </div>
+
+  <!-- NAV -->
+  <header class="fixed w-full z-40 top-0 px-6 py-4">
+    <div class="mx-auto max-w-6xl flex items-center justify-between card px-6 py-3">
+      <a href="#hero" class="flex items-center gap-3 no-underline">
+        <div
+          class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-teal-400 flex items-center justify-center text-white font-bold">
+          TK</div>
+        <div>
+          <div class="text-sm font-semibold">Tharun Kumar S</div>
+          <div class="text-xs text-muted-foreground text-gray-400">Cybersecurity • Software Development • Frontend</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-2">
+        <a class="nav-link text-sm text-gray-200" href="#about">About</a>
+        <a class="nav-link text-sm text-gray-200" href="#projects">Projects</a>
+        <a class="nav-link text-sm text-gray-200" href="#skills">Skills</a>
+        <a class="nav-link text-sm text-gray-200" href="#contact">Contact</a>
+        <button id="themeToggle" class="ml-3 p-2 rounded-md glow-hover" title="Toggle theme">🌗</button>
+      </nav>
+      <div class="md:hidden">
+        <button id="menuBtn" class="p-2 card rounded-md">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-28">
+    <!-- HERO -->
+    <section id="hero" class="max-w-6xl mx-auto px-6 py-16 reveal">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Introduction Column -->
+        <div class="space-y-8">
+          <div>
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+              Hi — I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400">Tharun
+                Kumar</span>
+            </h1>
+            <p class="mt-6 text-lg text-[var(--text-muted)] max-w-xl leading-relaxed">
+              I build secure developer tools and web apps. Currently focused on DevOps security, CI/CD secret leak
+              detection, and cross-platform secure file sharing. I love fast tooling, readable code, and thoughtful UX.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="mailto:stharunkumar069@gmail.com" class="btn-primary">
+              <span>📧</span>
+              <span>Email Me</span>
+            </a>
+            <a href="https://www.linkedin.com/in/tharun-kumar-s-369693296" target="_blank"
+              class="card px-6 py-3 flex items-center gap-2 hover:scale-105">
+              <span>💼</span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/ATKTharun1807" target="_blank"
+              class="card px-6 py-3 flex items-center gap-2 hover:scale-105">
+              <span>🐙</span>
+              <span>GitHub</span>
+            </a>
+          </div>
+
+          <div class="flex gap-4 text-sm flex-wrap">
+            <div class="card p-4 flex flex-col gap-1 min-w-[120px]">
+              <div class="text-xs text-[var(--text-muted)]">📍 Location</div>
+              <div class="font-bold">India</div>
+            </div>
+            <div class="card p-4 flex flex-col gap-1 min-w-[120px]">
+              <div class="text-xs text-[var(--text-muted)]">🎓 Education</div>
+              <div class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">B.E CSE
+              </div>
+            </div>
+            <div class="card p-4 flex flex-col gap-1 min-w-[120px]">
+              <div class="text-xs text-[var(--text-muted)]">📊 CGPA</div>
+              <div class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">7.13
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- "What I Do" Column -->
+        <div class="p-8 card rounded-[32px] space-y-6">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">💡</span>
+            <h3 class="text-2xl font-bold">What I Do</h3>
+          </div>
+
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 transition-colors">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-xl">🔐</span>
+                <h4 class="font-bold">Security & DevOps</h4>
+              </div>
+              <p class="text-sm text-[var(--text-muted)] leading-relaxed">Building automated pipelines like <b>Safe
+                  Pipe</b> to detect
+                vulnerabilities and prevent secret leaks in production-ready CI/CD workflows.</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-xl">⛓️</span>
+                <h4 class="font-bold">Blockchain Solutions</h4>
+              </div>
+              <p class="text-sm text-[var(--text-muted)] leading-relaxed">Developing decentralized applications like
+                <b>Vote
+                  Chain</b>, leveraging blockchain to create transparent and tamper-proof digital systems.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-teal-500/30 transition-colors">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-xl">📱</span>
+                <h4 class="font-bold">Secure Cross-Platform Apps</h4>
+              </div>
+              <p class="text-sm text-[var(--text-muted)] leading-relaxed">Crafting high-performance mobile and web apps
+                with Flutter
+                and Firebase, focusing on secure file handling and real-time synchronization.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 pt-2">
+            <span class="badge">🐍 Python</span>
+            <span class="badge">🟨 JS</span>
+            <span class="badge">🐳 Docker</span>
+            <span class="badge">⛓️ Blockchain</span>
+            <span class="badge">📱 Flutter</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="max-w-6xl mx-auto px-6 py-12 reveal">
+      <div class="card p-8 rounded-xl">
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+          <span>👨‍💻</span>
+          <span>About</span>
+        </h2>
+        <p class="mt-4 text-[var(--text-muted)]">I'm an undergraduate pursuing B.E. in Computer Science & Engineering
+          with a
+          specialization in Cyber Security (2023–27). I enjoy building practical security tools — projects include a
+          secret leak detection system for CI/CD pipelines and a cross-platform secure file sharing app built with
+          Flutter and Firebase.</p>
+
+        <div class="mt-6 grid md:grid-cols-3 gap-4">
+          <div class="p-4 card rounded-lg">
+            <div class="text-xs text-gray-400 flex items-center gap-1">
+              <span>🏫</span>
+              <span>Education</span>
+            </div>
+            <div class="font-semibold mt-2">Sri Shakthi Institute of Engineering & Technology</div>
+            <div class="text-sm text-gray-400 mt-1">B.E. Computer Science & Engineering (Cyber Security) — 2023–27</div>
+          </div>
+
+          <div class="p-4 card rounded-lg">
+            <div class="text-xs text-gray-400 flex items-center gap-1">
+              <span>🏆</span>
+              <span>Certifications</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-300 space-y-1">
+              <li class="flex items-start gap-2">
+                <span>✓</span>
+                <span>Python Beginner — Simplilearn</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span>✓</span>
+                <span>Fundamentals of DevOps on AWS — Simplilearn</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-4 card rounded-lg">
+            <div class="text-xs text-gray-400 flex items-center gap-1">
+              <span>📞</span>
+              <span>Contact</span>
+            </div>
+            <div class="font-semibold mt-2">stharunkumar069@gmail.com</div>
+            <div class="text-sm text-gray-400 mt-1">LinkedIn: Tharun kumar S</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-12 reveal">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+          <span>🚀</span>
+          <span>Projects</span>
+        </h2>
+        <div class="text-sm text-[var(--text-muted)]">Hover each card for details</div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project 1 -->
+        <article class="project-card card rounded-xl reveal">
+          <img
+            src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3"
+            alt="Safe Pipe">
+          <div class="project-overlay text-white">
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-purple-600/80">🐍 Python</span>
+              <span class="badge bg-blue-600/80">🐳 Docker</span>
+              <span class="badge bg-red-600/80">🔧 Jenkins</span>
+            </div>
+            <h3 class="text-lg font-semibold">Safe Pipe — Secret Leak Detection</h3>
+            <p class="text-sm mt-2">A tool to detect and prevent secret leaks across CI/CD pipelines with real-time
+              alerts and scalable deployment.</p>
+            <div class="mt-3 flex gap-2">
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
+                href="https://safe-pipe-devsecops-project-7.onrender.com">
+                <span>👁️</span>
+                <span>View</span>
+              </a>
+
+
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
+                href="https://github.com/Monishprabu003/Safe_Pipe---DevSecOps-Project-" target="_blank">
+                <span>🐙</span>
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card card rounded-xl reveal">
+          <img
+            src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3"
+            alt="Secure Filesharing">
+          <div class="project-overlay text-white">
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-blue-500/80">📱 Flutter</span>
+              <span class="badge bg-orange-500/80">🔥 Firebase</span>
+            </div>
+            <h3 class="text-lg font-semibold">Secure Filesharing App</h3>
+            <p class="text-sm mt-2">A cross-platform Flutter app using Firebase Authentication and real-time file
+              transfers with format conversion capabilities.</p>
+            <div class="mt-3 flex gap-2">
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md" href="#"
+                onclick="alert('Demo coming soon!'); return false;">
+                <span>👁️</span>
+                <span>View</span>
+              </a>
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
+                href="https://github.com/ATKTharun1807" target="_blank">
+                <span>🐙</span>
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card card rounded-xl reveal">
+          <img
+            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3"
+            alt="Vote Chain">
+          <div class="project-overlay text-white">
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="badge bg-green-600/80">🌐 Web3</span>
+              <span class="badge bg-blue-600/80">🧪 Blockchain</span>
+              <span class="badge bg-yellow-600/80">🟨 JavaScript</span>
+            </div>
+            <h3 class="text-lg font-semibold">Vote Chain — Secure Voting</h3>
+            <p class="text-sm mt-2">A blockchain-based secure voting system ensuring transparency and tamper-proof
+              records for elections.</p>
+            <div class="mt-3 flex gap-2">
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
+                href="https://vote-b8ro.onrender.com/" target="_blank">
+                <span>👁️</span>
+                <span>View</span>
+              </a>
+              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
+                href="https://github.com/ATKTharun1807/vote/tree/master/SafeVote" target="_blank">
+                <span>🐙</span>
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Placeholder for future project -->
+        <article class="project-card card rounded-xl reveal opacity-60">
+          <div class="h-[200px] bg-gradient-to-br from-purple-900/20 to-teal-900/20 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-4xl mb-2">🔨</div>
+              <div class="text-sm text-gray-400">More projects coming soon...</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="max-w-6xl mx-auto px-6 py-12 reveal">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+        <span>🛠️</span>
+        <span>Skills & Tools</span>
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="card p-4 rounded-lg">
+          <h4 class="font-semibold flex items-center gap-2">💻 Programming Languages</h4>
+          <p class="text-sm text-[var(--text-muted)] mt-2">🐍 Python · ☕ Java · 🟨 JavaScript · 🎯 Dart</p>
+        </div>
+        <div class="card p-4 rounded-lg">
+          <h4 class="font-semibold flex items-center gap-2">🔐 DevOps & Security</h4>
+          <p class="text-sm text-[var(--text-muted)] mt-2">🐳 Docker · 🔧 Jenkins · 🧪 BurpSuite · 📡 Wireshark · 🛡
+            Metasploit · ⛓
+            Blockchain</p>
+        </div>
+        <div class="card p-4 rounded-lg">
+          <h4 class="font-semibold flex items-center gap-2">🎨 Frontend & Mobile</h4>
+          <p class="text-sm text-[var(--text-muted)] mt-2">🌐 HTML · 🎨 CSS · ⚡ JS · 📱 Flutter</p>
+        </div>
+        <div class="card p-4 rounded-lg">
+          <h4 class="font-semibold flex items-center gap-2">☁️ Cloud & Databases</h4>
+          <p class="text-sm text-[var(--text-muted)] mt-2">🗄 SQLite · 🔥 Firebase · ☁️ Render</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-6xl mx-auto px-6 py-12 reveal">
+      <div class="card p-8 rounded-xl text-center">
+        <h2 class="text-2xl font-bold flex items-center justify-center gap-2">
+          <span>📬</span>
+          <span>Get in Touch</span>
+        </h2>
+        <p class="mt-2 text-[var(--text-muted)]">Connect with me instantly using the buttons below.</p>
+
+        <div class="mt-6 flex justify-center gap-4 flex-wrap">
+          <a class="btn-icon card" href="mailto:stharunkumar069@gmail.com">
+            <span>📩</span>
+            <span>Email</span>
+          </a>
+          <a class="btn-icon card" href="https://www.linkedin.com/in/tharun-kumar-s-369693296" target="_blank">
+            <span>🔗</span>
+            <span>LinkedIn</span>
+          </a>
+          <a class="btn-icon card" href="https://github.com/ATKTharun1807" target="_blank">
+            <span>🐙</span>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 mb-6">
+    <div
+      class="max-w-6xl mx-auto px-6 py-8 card rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-teal-400 flex items-center justify-center text-white font-bold">
+          TK</div>
+        <div>
+          <div class="font-semibold">Tharun Kumar S</div>
+          <div class="text-sm text-gray-400">B.E CSE (Cyber Security) • Sri Shakthi Institute</div>
+        </div>
+      </div>
+
+      <div class="flex gap-4 items-center text-sm">
+        <a class="glow-hover flex items-center gap-2" href="mailto:stharunkumar069@gmail.com">
+          <span>📧</span>
+          <span>stharunkumar069@gmail.com</span>
+        </a>
+        <a class="glow-hover flex items-center gap-2" href="https://github.com/ATKTharun1807" target="_blank">
+          <span>🐙</span>
+          <span>GitHub</span>
+        </a>
+        <a class="glow-hover flex items-center gap-2" href="https://www.linkedin.com/in/tharun-kumar-s-369693296"
+          target="_blank">
+          <span>💼</span>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const cur = document.body.getAttribute('data-theme');
+      if (cur === 'dark') {
+        document.body.setAttribute('data-theme', 'light');
+        themeToggle.textContent = '🌞';
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '🌗';
+      }
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn && menuBtn.addEventListener('click', () => {
+      alert('Navigation on mobile: use sections. (This demo keeps header minimal.)');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+        else { entry.target.classList.remove('visible'); }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const el = document.querySelector(href);
+          el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
