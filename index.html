@@ -594,16 +594,16 @@
 
               <!-- Progress Indicator -->
               <div class="flex justify-between text-xs mb-1">
-                <span class="text-green-400">Easy: 13</span>
-                <span class="text-yellow-400">Med: 0</span>
-                <span class="text-red-400">Hard: 0</span>
+                <span class="text-green-400" id="leetcode-easy">Easy: 21</span>
+                <span class="text-yellow-400" id="leetcode-med">Med: 0</span>
+                <span class="text-red-400" id="leetcode-hard">Hard: 0</span>
               </div>
               <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-green-400 to-green-600 w-[15%]"></div>
+                <div id="leetcode-progress" class="h-full bg-gradient-to-r from-green-400 to-green-600 w-[25%]"></div>
               </div>
               <div class="text-xs text-[var(--text-muted)] flex justify-between">
-                <span>Total Active Days: 3</span>
-                <span>Max Streak: 2</span>
+                <span id="leetcode-active-days">Total Active Days: 4</span>
+                <span id="leetcode-streak">Max Streak: 2</span>
               </div>
             </div>
 
@@ -746,6 +746,29 @@
         }
       });
     });
+
+    async function fetchLeetCodeStats() {
+      try {
+        const response = await fetch('https://leetcode-stats-api.herokuapp.com/lgsNroNVgg/');
+        const data = await response.json();
+        if (data.status === 'success') {
+          document.getElementById('leetcode-easy').textContent = `Easy: ${data.easySolved}`;
+          document.getElementById('leetcode-med').textContent = `Med: ${data.mediumSolved}`;
+          document.getElementById('leetcode-hard').textContent = `Hard: ${data.hardSolved}`;
+
+          const totalQuestions = data.totalQuestions || 3000;
+          const progress = (data.totalSolved / 50) * 100; // Assuming 50 as a milestone for the bar
+          document.getElementById('leetcode-progress').style.width = `${Math.min(progress, 100)}%`;
+
+          const activeDays = Object.keys(data.submissionCalendar).length;
+          document.getElementById('leetcode-active-days').textContent = `Total Active Days: ${activeDays}`;
+          // Max streak is not provided by this API, keeping it as is or removing if not accurate
+        }
+      } catch (error) {
+        console.error('Error fetching LeetCode stats:', error);
+      }
+    }
+    fetchLeetCodeStats();
   </script>
 </body>
 
