@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <meta name="description" content="Portfolio — Tharun Kumar S | Cybersecurity & Fullstack Enthusiast" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
 
@@ -15,11 +16,11 @@
       --accent-primary: #7c3aed;
       --accent-secondary: #0ea5e9;
       --bg-gradient: radial-gradient(circle at top right, #0a0a0f 0%, #050505 100%);
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --nav-bg: rgba(10, 10, 15, 0.7);
+      --nav-bg: rgba(10, 10, 15, 0.85);
     }
 
     [data-theme="light"] {
@@ -159,17 +160,50 @@
     .project-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0) 100%);
+      background: rgba(5, 5, 10, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       padding: 1.5rem;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(20px);
     }
 
     .project-card:hover .project-overlay {
       opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff !important;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-icon i {
+      width: 18px;
+      height: 18px;
+      color: #fff;
     }
 
     .badge {
@@ -262,10 +296,14 @@
         <a class="nav-link text-sm text-gray-200" href="#activity">Activity</a>
         <a class="nav-link text-sm text-gray-200" href="#skills">Skills</a>
         <a class="nav-link text-sm text-gray-200" href="#contact">Contact</a>
-        <button id="themeToggle" class="ml-3 p-2 rounded-md glow-hover" title="Toggle theme">🌗</button>
+        <button id="themeToggle" class="ml-3 p-2 rounded-md glow-hover" title="Toggle theme">
+          <i data-lucide="moon" class="w-5 h-5 transition-all"></i>
+        </button>
       </nav>
       <div class="md:hidden">
-        <button id="menuBtn" class="p-2 card rounded-md">☰</button>
+        <button id="menuBtn" class="p-2 card rounded-md">
+          <i data-lucide="menu"></i>
+        </button>
       </div>
     </div>
   </header>
@@ -289,17 +327,17 @@
 
           <div class="flex flex-wrap gap-4">
             <a href="mailto:stharunkumar069@gmail.com" class="btn-primary">
-              <span>📧</span>
+              <i data-lucide="mail" class="w-5 h-5"></i>
               <span>Email Me</span>
             </a>
             <a href="https://www.linkedin.com/in/tharun-kumar-s-369693296" target="_blank"
-              class="card px-6 py-3 flex items-center gap-2 hover:scale-105">
-              <span>💼</span>
+              class="card px-6 py-3 flex items-center gap-2 hover:scale-105 transition-transform">
+              <i data-lucide="linkedin" class="w-5 h-5 text-[#0077B5]"></i>
               <span>LinkedIn</span>
             </a>
             <a href="https://github.com/ATKTharun1807" target="_blank"
-              class="card px-6 py-3 flex items-center gap-2 hover:scale-105">
-              <span>🐙</span>
+              class="card px-6 py-3 flex items-center gap-2 hover:scale-105 transition-transform">
+              <i data-lucide="github" class="w-5 h-5 text-white"></i>
               <span>GitHub</span>
             </a>
           </div>
@@ -325,7 +363,7 @@
         <!-- "What I Do" Column -->
         <div class="p-8 card rounded-[32px] space-y-6">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">💡</span>
+            <i data-lucide="sparkles" class="text-yellow-400 w-8 h-8"></i>
             <h3 class="text-2xl font-bold">What I Do</h3>
           </div>
 
@@ -377,7 +415,7 @@
     <section id="about" class="max-w-6xl mx-auto px-6 py-12 reveal">
       <div class="card p-8 rounded-xl">
         <h2 class="text-2xl font-bold flex items-center gap-2">
-          <span>👨‍💻</span>
+          <i data-lucide="user" class="text-purple-500"></i>
           <span>About</span>
         </h2>
         <p class="mt-4 text-[var(--text-muted)]">I'm an undergraduate pursuing B.E. in Computer Science & Engineering
@@ -447,21 +485,19 @@
               <span class="badge bg-blue-600/80">🐳 Docker</span>
               <span class="badge bg-red-600/80">🔧 Jenkins</span>
             </div>
-            <h3 class="text-lg font-semibold">Safe Pipe — Secret Leak Detection</h3>
-            <p class="text-sm mt-2">A tool to detect and prevent secret leaks across CI/CD pipelines with real-time
+            <h3 class="text-lg font-bold mb-2">Safe Pipe 🛡️</h3>
+            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A tool to detect and prevent secret leaks across CI/CD
+              pipelines with real-time
               alerts and scalable deployment.</p>
-            <div class="mt-3 flex gap-2">
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://safe-pipe-devsecops-project-7.onrender.com">
-                <span>👁️</span>
+            <div class="flex gap-2">
+              <a class="btn-icon" href="https://safe-pipe-devsecops-project-7.onrender.com">
+                <i data-lucide="external-link"></i>
                 <span>View</span>
               </a>
-
-
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/Monishprabu003/Safe_Pipe---DevSecOps-Project-" target="_blank">
-                <span>🐙</span>
-                <span>GitHub</span>
+              <a class="btn-icon" href="https://github.com/Monishprabu003/Safe_Pipe---DevSecOps-Project-"
+                target="_blank">
+                <i data-lucide="github"></i>
+                <span>Code</span>
               </a>
             </div>
           </div>
@@ -477,19 +513,18 @@
               <span class="badge bg-blue-500/80">📱 Flutter</span>
               <span class="badge bg-orange-500/80">🔥 Firebase</span>
             </div>
-            <h3 class="text-lg font-semibold">Secure Filesharing App</h3>
-            <p class="text-sm mt-2">A cross-platform Flutter app using Firebase Authentication and real-time file
+            <h3 class="text-lg font-bold mb-2">Secure Filesharing 📱</h3>
+            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A cross-platform Flutter app using Firebase
+              Authentication and real-time file
               transfers with format conversion capabilities.</p>
-            <div class="mt-3 flex gap-2">
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md" href="#"
-                onclick="alert('Demo coming soon!'); return false;">
-                <span>👁️</span>
-                <span>View</span>
+            <div class="flex gap-2">
+              <a class="btn-icon" href="#" onclick="alert('Demo coming soon!'); return false;">
+                <i data-lucide="play-circle"></i>
+                <span>Demo</span>
               </a>
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/ATKTharun1807" target="_blank">
-                <span>🐙</span>
-                <span>GitHub</span>
+              <a class="btn-icon" href="https://github.com/ATKTharun1807" target="_blank">
+                <i data-lucide="github"></i>
+                <span>Code</span>
               </a>
             </div>
           </div>
@@ -506,19 +541,18 @@
               <span class="badge bg-blue-600/80">🧪 Blockchain</span>
               <span class="badge bg-yellow-600/80">🟨 JavaScript</span>
             </div>
-            <h3 class="text-lg font-semibold">Vote Chain — Secure Voting</h3>
-            <p class="text-sm mt-2">A blockchain-based secure voting system ensuring transparency and tamper-proof
+            <h3 class="text-lg font-bold mb-2">Vote Chain ⛓️</h3>
+            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A blockchain-based secure voting system ensuring
+              transparency and tamper-proof
               records for elections.</p>
-            <div class="mt-3 flex gap-2">
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://vote-b8ro.onrender.com/" target="_blank">
-                <span>👁️</span>
-                <span>View</span>
+            <div class="flex gap-2">
+              <a class="btn-icon" href="https://vote-b8ro.onrender.com/" target="_blank">
+                <i data-lucide="external-link"></i>
+                <span>Live Site</span>
               </a>
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/ATKTharun1807/vote/tree/master/SafeVote" target="_blank">
-                <span>🐙</span>
-                <span>GitHub</span>
+              <a class="btn-icon" href="https://github.com/ATKTharun1807/vote/tree/master/SafeVote" target="_blank">
+                <i data-lucide="github"></i>
+                <span>Code</span>
               </a>
             </div>
           </div>
@@ -557,17 +591,17 @@
           <div class="space-y-4">
             <div class="flex flex-wrap gap-2 justify-center">
               <img class="rounded-xl w-full sm:w-[49%]"
-                src="https://github-readme-stats.vercel.app/api?username=ATKTharun1807&show_icons=true&theme=tokyonight&hide_border=true&count_private=true"
+                src="https://github-readme-stats.vercel.app/api?username=ATKTharun1807&show_icons=true&theme=radical&hide_border=true&count_private=true&icon_color=7c3aed&text_color=f8fafc"
                 alt="GitHub Stats" />
               <img class="rounded-xl w-full sm:w-[49%]"
-                src="https://github-readme-stats.vercel.app/api/top-langs/?username=ATKTharun1807&layout=compact&theme=tokyonight&hide_border=true"
+                src="https://github-readme-stats.vercel.app/api/top-langs/?username=ATKTharun1807&layout=compact&theme=radical&hide_border=true&icon_color=0ea5e9&text_color=f8fafc"
                 alt="Top Languages" />
             </div>
             <img class="rounded-xl w-full"
-              src="https://github-readme-streak-stats.herokuapp.com/?user=ATKTharun1807&theme=tokyonight&hide_border=true"
+              src="https://github-readme-streak-stats.herokuapp.com/?user=ATKTharun1807&theme=radical&hide_border=true&stroke=7c3aed&ring=0ea5e9"
               alt="GitHub Streak" />
             <img class="rounded-xl w-full"
-              src="https://github-readme-activity-graph.vercel.app/graph?username=ATKTharun1807&theme=tokyo-night&hide_border=true"
+              src="https://github-readme-activity-graph.vercel.app/graph?username=ATKTharun1807&theme=react-dark&hide_border=true&area=true&color=7c3aed"
               alt="Activity Graph" />
           </div>
         </div>
@@ -710,16 +744,20 @@
   </footer>
 
   <script>
+    lucide.createIcons();
+
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
       const cur = document.body.getAttribute('data-theme');
+      const icon = themeToggle.querySelector('i');
       if (cur === 'dark') {
         document.body.setAttribute('data-theme', 'light');
-        themeToggle.textContent = '🌞';
+        icon.setAttribute('data-lucide', 'sun');
       } else {
         document.body.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '🌗';
+        icon.setAttribute('data-lucide', 'moon');
       }
+      lucide.createIcons();
     });
 
     const menuBtn = document.getElementById('menuBtn');
