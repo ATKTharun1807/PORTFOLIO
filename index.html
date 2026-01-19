@@ -13,25 +13,41 @@
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
 
     :root {
-      --accent-primary: #7c3aed;
+      --accent-primary: #8b5cf6;
       --accent-secondary: #0ea5e9;
-      --bg-gradient: radial-gradient(circle at top right, #0a0a0f 0%, #050505 100%);
+      --bg-gradient: radial-gradient(circle at top right, #13131f 0%, #0c0c14 100%);
       --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --text-main: #f8fafc;
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f1f5f9;
       --text-muted: #94a3b8;
-      --nav-bg: rgba(10, 10, 15, 0.85);
+      --nav-bg: rgba(19, 19, 31, 0.85);
+      --overlay-bg: rgba(10, 10, 20, 0.8);
+      --eye-filter: none;
+    }
+
+    [data-theme="eye-protection"] {
+      --accent-primary: #f59e0b;
+      --accent-secondary: #dbb180;
+      --bg-gradient: radial-gradient(circle at top right, #2d241e 0%, #1c1815 100%);
+      --card-bg: rgba(245, 158, 11, 0.08);
+      --card-border: rgba(18, 215, 77, 0.2);
+      --text-main: #ffedd5;
+      --text-muted: #d97706;
+      --nav-bg: rgba(45, 36, 30, 0.9);
+      --overlay-bg: rgba(27, 199, 35, 0.85);
+      --eye-filter: sepia(0.2) saturate(1.1);
     }
 
     [data-theme="light"] {
-      --accent-primary: #6366f1;
-      --accent-secondary: #0ea5e9;
-      --bg-gradient: radial-gradient(circle at top right, #f8fafc 0%, #f1f5f9 100%);
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --card-border: rgba(99, 102, 241, 0.15);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --nav-bg: rgba(255, 255, 255, 0.9);
+      --accent-primary: #4f46e5;
+      --accent-secondary: #0284c7;
+      --bg-gradient: radial-gradient(circle at top right, #e2e8f0 0%, #cbd5e1 100%);
+      --card-bg: rgba(255, 255, 255, 0.6);
+      --card-border: rgba(79, 70, 229, 0.1);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --nav-bg: rgba(226, 232, 240, 0.9);
+      --overlay-bg: rgba(255, 255, 255, 0.9);
     }
 
     * {
@@ -49,6 +65,8 @@
       background: var(--bg-gradient);
       color: var(--text-main);
       overflow-x: hidden;
+      filter: var(--eye-filter);
+      transition: filter 0.5s ease, background 0.5s ease, color 0.5s ease;
     }
 
     /* Mesh Gradient Background */
@@ -160,9 +178,9 @@
     .project-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(5, 5, 10, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: var(--overlay-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -172,6 +190,7 @@
       opacity: 0;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateY(20px);
+      color: var(--text-main);
     }
 
     .project-card:hover .project-overlay {
@@ -182,7 +201,7 @@
     .btn-icon {
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff !important;
+      color: var(--text-main) !important;
       padding: 0.6rem 1.2rem;
       border-radius: 12px;
       font-weight: 600;
@@ -191,6 +210,11 @@
       gap: 0.5rem;
       transition: all 0.3s ease;
       backdrop-filter: blur(4px);
+    }
+
+    [data-theme="dark"] .btn-icon,
+    [data-theme="eye-protection"] .btn-icon {
+      color: #fff !important;
     }
 
     .btn-icon:hover {
@@ -286,16 +310,17 @@
           class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-teal-400 flex items-center justify-center text-white font-bold">
           TK</div>
         <div>
-          <div class="text-sm font-semibold">Tharun Kumar S</div>
-          <div class="text-xs text-muted-foreground text-gray-400">Cybersecurity • Software Development • Frontend</div>
+          <div class="text-sm font-bold text-[var(--text-main)]">Tharun Kumar S</div>
+          <div class="text-[10px] uppercase tracking-wider text-[var(--text-muted)] opacity-80">DevOps • Security •
+            Fullstack</div>
         </div>
       </a>
       <nav class="hidden md:flex items-center gap-2">
-        <a class="nav-link text-sm text-gray-200" href="#about">About</a>
-        <a class="nav-link text-sm text-gray-200" href="#projects">Projects</a>
-        <a class="nav-link text-sm text-gray-200" href="#activity">Activity</a>
-        <a class="nav-link text-sm text-gray-200" href="#skills">Skills</a>
-        <a class="nav-link text-sm text-gray-200" href="#contact">Contact</a>
+        <a class="nav-link text-sm" href="#about">About</a>
+        <a class="nav-link text-sm" href="#projects">Projects</a>
+        <a class="nav-link text-sm" href="#activity">Activity</a>
+        <a class="nav-link text-sm" href="#skills">Skills</a>
+        <a class="nav-link text-sm" href="#contact">Contact</a>
         <button id="themeToggle" class="ml-3 p-2 rounded-md glow-hover" title="Toggle theme">
           <i data-lucide="moon" class="w-5 h-5 transition-all"></i>
         </button>
@@ -485,8 +510,9 @@
               <span class="badge bg-blue-600/80">🐳 Docker</span>
               <span class="badge bg-red-600/80">🔧 Jenkins</span>
             </div>
-            <h3 class="text-lg font-bold mb-2">Safe Pipe 🛡️</h3>
-            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A tool to detect and prevent secret leaks across CI/CD
+            <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Safe Pipe 🛡️</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4 line-clamp-3">A tool to detect and prevent secret leaks
+              across CI/CD
               pipelines with real-time
               alerts and scalable deployment.</p>
             <div class="flex gap-2">
@@ -515,8 +541,8 @@
               <span class="badge bg-blue-500/80">📱 Flutter</span>
               <span class="badge bg-orange-500/80">🔥 Firebase</span>
             </div>
-            <h3 class="text-lg font-bold mb-2">Secure Filesharing 📱</h3>
-            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A cross-platform Flutter app using Firebase
+            <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Secure Filesharing 📱</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4 line-clamp-3">A cross-platform Flutter app using Firebase
               Authentication and real-time file
               transfers with format conversion capabilities.</p>
             <div class="flex gap-2">
@@ -544,8 +570,9 @@
               <span class="badge bg-blue-600/80">🧪 Blockchain</span>
               <span class="badge bg-yellow-600/80">🟨 JavaScript</span>
             </div>
-            <h3 class="text-lg font-bold mb-2">Vote Chain ⛓️</h3>
-            <p class="text-xs text-gray-300 mb-4 line-clamp-3">A blockchain-based secure voting system ensuring
+            <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Vote Chain ⛓️</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4 line-clamp-3">A blockchain-based secure voting system
+              ensuring
               transparency and tamper-proof
               records for elections.</p>
             <div class="flex gap-2">
@@ -751,16 +778,30 @@
     lucide.createIcons();
 
     const themeToggle = document.getElementById('themeToggle');
+    const themes = ['dark', 'light', 'eye-protection'];
+    const icons = {
+      'dark': 'moon',
+      'light': 'sun',
+      'eye-protection': 'eye'
+    };
+
     themeToggle.addEventListener('click', () => {
-      const cur = document.body.getAttribute('data-theme');
+      let cur = document.body.getAttribute('data-theme') || 'dark';
+      let nextIndex = (themes.indexOf(cur) + 1) % themes.length;
+      let nextTheme = themes[nextIndex];
+
+      document.body.setAttribute('data-theme', nextTheme);
+
       const icon = themeToggle.querySelector('i');
-      if (cur === 'dark') {
-        document.body.setAttribute('data-theme', 'light');
-        icon.setAttribute('data-lucide', 'sun');
+      icon.setAttribute('data-lucide', icons[nextTheme]);
+
+      // Visual feedback for eye protection
+      if (nextTheme === 'eye-protection') {
+        themeToggle.style.borderColor = 'var(--accent-primary)';
       } else {
-        document.body.setAttribute('data-theme', 'dark');
-        icon.setAttribute('data-lucide', 'moon');
+        themeToggle.style.borderColor = 'var(--card-border)';
       }
+
       lucide.createIcons();
     });
 
