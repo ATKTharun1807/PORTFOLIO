@@ -1,3 +1,4 @@
+\
 <!doctype html>
 <html lang="en">
 
@@ -31,6 +32,7 @@
       --nav-bg: rgba(19, 19, 31, 0.85);
       --overlay-bg: rgba(10, 10, 20, 0.8);
       --eye-filter: none;
+      --brand-gradient: linear-gradient(135deg, #8b5cf6, #0ea5e9);
     }
 
     [data-theme="hacker"] {
@@ -44,6 +46,7 @@
       --nav-bg: rgba(0, 0, 0, 0.9);
       --overlay-bg: rgba(0, 20, 0, 0.9);
       font-family: 'Fira Code', monospace !important;
+      --brand-gradient: linear-gradient(135deg, #00ff41, #008f11);
     }
 
     [data-theme="hacker"] * {
@@ -76,6 +79,7 @@
       --text-muted: #64748b;
       --nav-bg: rgba(226, 232, 240, 0.9);
       --overlay-bg: rgba(255, 255, 255, 0.9);
+      --brand-gradient: linear-gradient(135deg, #4f46e5, #0284c7);
     }
 
     * {
@@ -436,7 +440,8 @@
     <div class="mx-auto max-w-6xl flex items-center justify-between card px-6 py-3">
       <a href="#hero" class="flex items-center gap-3 no-underline">
         <div
-          class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-teal-400 flex items-center justify-center text-white font-bold">
+          class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold transition-all duration-500"
+          style="background: var(--brand-gradient); box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
           TK</div>
         <div>
           <div class="text-sm font-bold text-[var(--text-main)]">Tharun Kumar S</div>
@@ -956,12 +961,17 @@
     <div
       class="max-w-6xl mx-auto px-6 py-8 card rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-teal-400 flex items-center justify-center text-white font-bold">
-          TK</div>
+        <div id="footer-logo"
+          class="w-12 h-12 rounded-xl flex items-center justify-center text-white transition-all duration-500 hover:rotate-12"
+          style="background: var(--brand-gradient); box-shadow: 0 0 20px var(--accent-primary);">
+          <i id="footer-icon" data-lucide="user" class="w-6 h-6"></i>
+        </div>
         <div>
-          <div class="font-semibold">Tharun Kumar S</div>
-          <div class="text-sm text-gray-400">B.E CSE (Cyber Security) • Sri Shakthi Institute</div>
+          <div class="font-bold text-lg text-[var(--text-main)] tracking-tight">Tharun Kumar S</div>
+          <div id="status-bar"
+            class="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--accent-secondary)] opacity-90">
+            <!-- Dynamic Content -->
+          </div>
         </div>
       </div>
 
@@ -1002,8 +1012,38 @@
         }
 
         lucide.createIcons();
+        updateStatusBar();
       });
     });
+
+    function updateStatusBar() {
+      const statusBar = document.getElementById('status-bar');
+      const footerIcon = document.getElementById('footer-icon');
+      const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+      if (theme === 'hacker') {
+        if (footerIcon) footerIcon.setAttribute('data-lucide', 'shield-check');
+        statusBar.innerHTML = `
+          <span class="text-[var(--accent-primary)] animate-pulse">[ ACCESS: RED_ADMIN ]</span>
+          <span class="mx-2 opacity-30">|</span>
+          <span class="text-[var(--text-main)]">NET_TRAFFIC: <span id="uptime-val">842</span> KB/S</span>
+        `;
+      } else {
+        if (footerIcon) footerIcon.setAttribute('data-lucide', 'user');
+        statusBar.innerHTML = `
+          <span>Available for New Projects</span>
+          <span class="ml-2 inline-block w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e] animate-pulse"></span>
+        `;
+      }
+      lucide.createIcons();
+    }
+    updateStatusBar();
+
+    // Mock live traffic update
+    setInterval(() => {
+      const val = document.getElementById('uptime-val');
+      if (val) val.textContent = Math.floor(Math.random() * (999 - 100) + 100);
+    }, 2000);
 
     // Initialize theme UI
     const savedThemeInput = localStorage.getItem('portfolio-theme') || 'dark';
