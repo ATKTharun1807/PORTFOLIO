@@ -75,11 +75,11 @@
       --bg-gradient: radial-gradient(circle at top right, #e2e8f0 0%, #cbd5e1 100%);
       --card-bg: rgba(255, 255, 255, 0.6);
       --card-border: rgba(79, 70, 229, 0.1);
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --nav-bg: rgba(226, 232, 240, 0.9);
-      --overlay-bg: rgba(255, 255, 255, 0.9);
-      --brand-gradient: linear-gradient(135deg, #4f46e5, #0284c7);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --nav-bg: rgba(226, 232, 240, 0.95);
+      --overlay-bg: rgba(255, 255, 255, 0.95);
+      --brand-gradient: linear-gradient(135deg, #4338ca, #0369a1);
     }
 
     * {
@@ -968,8 +968,7 @@
         </div>
         <div>
           <div class="font-bold text-lg text-[var(--text-main)] tracking-tight">Tharun Kumar S</div>
-          <div id="status-bar"
-            class="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--accent-secondary)] opacity-90">
+          <div id="status-bar" class="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--text-muted)]">
             <!-- Dynamic Content -->
           </div>
         </div>
@@ -1029,10 +1028,10 @@
           <span class="text-[var(--text-main)]">NET_TRAFFIC: <span id="uptime-val">842</span> KB/S</span>
         `;
       } else {
-        if (footerIcon) footerIcon.setAttribute('data-lucide', 'user');
+        if (footerIcon) footerIcon.setAttribute('data-lucide', 'heart');
         statusBar.innerHTML = `
-          <span>Available for New Projects</span>
-          <span class="ml-2 inline-block w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e] animate-pulse"></span>
+          <span class="text-[var(--accent-primary)]">THANK YOU FOR VISITING!</span>
+          <span class="ml-2 inline-block w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444] animate-pulse"></span>
         `;
       }
       lucide.createIcons();
