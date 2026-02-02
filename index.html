@@ -269,7 +269,8 @@
       position: absolute;
       font-family: monospace;
       font-size: 10px;
-      color: rgba(139, 92, 246, 0.3);
+      color: var(--accent-primary);
+      opacity: 0.4;
       white-space: nowrap;
     }
 
@@ -361,13 +362,18 @@
     }
 
     [data-theme="light"] .badge:not([class*="bg-"]) {
-      background: #f1f5f9;
-      border-color: #e2e8f0;
+      background-color: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.1);
       color: var(--text-main);
     }
 
     [data-theme="light"] .badge[class*="bg-"] {
-      color: #fff;
+      color: #ffffff !important;
+      border: none;
+    }
+
+    [data-theme="light"] .badge[class*="bg-"] i {
+      color: #ffffff !important;
     }
 
     .btn-icon:hover {
@@ -386,11 +392,14 @@
     .badge {
       padding: 4px 12px;
       border-radius: 100px;
-      background: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       border: 1px solid var(--card-border);
       font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     [data-theme="dark"] .badge,
@@ -585,7 +594,8 @@
           </div>
 
           <div class="space-y-4">
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 transition-colors">
+            <div
+              class="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-purple-500/30 transition-colors">
               <div class="flex items-center gap-3 mb-2">
                 <i data-lucide="shield-check" class="w-5 h-5 text-purple-500"></i>
                 <h4 class="font-bold">Security & DevOps</h4>
@@ -595,7 +605,8 @@
                 vulnerabilities and prevent secret leaks in production-ready CI/CD workflows.</p>
             </div>
 
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors">
+            <div
+              class="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-cyan-500/30 transition-colors">
               <div class="flex items-center gap-3 mb-2">
                 <i data-lucide="link" class="w-5 h-5 text-cyan-500"></i>
                 <h4 class="font-bold">Blockchain Solutions</h4>
@@ -606,7 +617,8 @@
               </p>
             </div>
 
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-teal-500/30 transition-colors">
+            <div
+              class="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-teal-500/30 transition-colors">
               <div class="flex items-center gap-3 mb-2">
                 <i data-lucide="smartphone" class="w-5 h-5 text-teal-500"></i>
                 <h4 class="font-bold">Secure Cross-Platform Apps</h4>
@@ -721,9 +733,9 @@
               </a>
 
 
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/ATKTharun1807/Safe_Pipe---DevSecOps-Project-" target="_blank">
-                <i data-lucide="github" class="w-4 h-4"></i>
+              <a class="btn-icon" href="https://github.com/ATKTharun1807/Safe_Pipe---DevSecOps-Project-"
+                target="_blank">
+                <i data-lucide="github"></i>
                 <span>GitHub</span>
               </a>
             </div>
@@ -754,9 +766,8 @@
                 <i data-lucide="play-circle"></i>
                 <span>Demo</span>
               </a>
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/ATKTharun1807/File_sharing_Application" target="_blank">
-                <i data-lucide="github" class="w-4 h-4"></i>
+              <a class="btn-icon" href="https://github.com/ATKTharun1807/File_sharing_Application" target="_blank">
+                <i data-lucide="github"></i>
                 <span>GitHub</span>
               </a>
             </div>
@@ -790,9 +801,8 @@
                 <i data-lucide="external-link"></i>
                 <span>Live Site</span>
               </a>
-              <a class="btn-icon bg-white/10 hover:bg-white/20 text-sm px-3 py-1.5 rounded-md"
-                href="https://github.com/ATKTharun1807/vote/tree/master/SafeVote" target="_blank">
-                <i data-lucide="github" class="w-4 h-4"></i>
+              <a class="btn-icon" href="https://github.com/ATKTharun1807/vote/tree/master/SafeVote" target="_blank">
+                <i data-lucide="github"></i>
                 <span>GitHub</span>
               </a>
             </div>
@@ -859,7 +869,7 @@
                 class="text-xs text-[var(--accent-secondary)] hover:underline">View Profile →</a>
             </div>
 
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-4">
+            <div class="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] space-y-4">
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-2xl">
                   <i data-lucide="trophy" class="w-6 h-6 text-yellow-500"></i>
