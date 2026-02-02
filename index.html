@@ -389,10 +389,13 @@
       color: inherit;
     }
 
+    .badge:not([class*="bg-"]) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
     .badge {
       padding: 4px 12px;
       border-radius: 100px;
-      background-color: rgba(255, 255, 255, 0.1);
       border: 1px solid var(--card-border);
       font-size: 0.75rem;
       font-weight: 600;
@@ -400,6 +403,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      backdrop-filter: blur(4px);
     }
 
     [data-theme="dark"] .badge,
@@ -714,11 +718,11 @@
           </div>
           <div class="project-overlay">
             <div class="flex flex-wrap gap-2 mb-2">
-              <span class="badge bg-purple-600/80 flex items-center gap-1"><i data-lucide="terminal"
-                  class="w-3 h-3"></i> Python</span>
-              <span class="badge bg-blue-600/80 flex items-center gap-1"><i data-lucide="box" class="w-3 h-3"></i>
+              <span class="badge bg-purple-600 flex items-center gap-1"><i data-lucide="terminal" class="w-3 h-3"></i>
+                Python</span>
+              <span class="badge bg-blue-600 flex items-center gap-1"><i data-lucide="box" class="w-3 h-3"></i>
                 Docker</span>
-              <span class="badge bg-red-600/80 flex items-center gap-1"><i data-lucide="settings" class="w-3 h-3"></i>
+              <span class="badge bg-red-600 flex items-center gap-1"><i data-lucide="settings" class="w-3 h-3"></i>
                 Jenkins</span>
             </div>
             <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Safe Pipe</h3>
@@ -752,9 +756,9 @@
           </div>
           <div class="project-overlay">
             <div class="flex flex-wrap gap-2 mb-2">
-              <span class="badge bg-blue-500/80 flex items-center gap-1"><i data-lucide="smartphone"
-                  class="w-3 h-3"></i> Flutter</span>
-              <span class="badge bg-orange-500/80 flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3"></i>
+              <span class="badge bg-blue-500 flex items-center gap-1"><i data-lucide="smartphone" class="w-3 h-3"></i>
+                Flutter</span>
+              <span class="badge bg-orange-500 flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3"></i>
                 Firebase</span>
             </div>
             <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Secure Filesharing</h3>
@@ -784,11 +788,11 @@
           </div>
           <div class="project-overlay">
             <div class="flex flex-wrap gap-2 mb-2">
-              <span class="badge bg-green-600/80 flex items-center gap-1"><i data-lucide="globe" class="w-3 h-3"></i>
+              <span class="badge bg-green-600 flex items-center gap-1"><i data-lucide="globe" class="w-3 h-3"></i>
                 Web3</span>
-              <span class="badge bg-blue-600/80 flex items-center gap-1"><i data-lucide="link-2" class="w-3 h-3"></i>
+              <span class="badge bg-blue-600 flex items-center gap-1"><i data-lucide="link-2" class="w-3 h-3"></i>
                 Blockchain</span>
-              <span class="badge bg-yellow-600/80 flex items-center gap-1"><i data-lucide="code" class="w-3 h-3"></i>
+              <span class="badge bg-yellow-600 flex items-center gap-1"><i data-lucide="code" class="w-3 h-3"></i>
                 JavaScript</span>
             </div>
             <h3 class="text-lg font-bold mb-2 text-[var(--text-main)]">Vote Chain</h3>
