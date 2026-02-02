@@ -332,8 +332,8 @@
     }
 
     .btn-icon {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       color: var(--text-main) !important;
       padding: 0.6rem 1.2rem;
       border-radius: 12px;
@@ -346,8 +346,23 @@
     }
 
     [data-theme="dark"] .btn-icon,
-    [data-theme="eye-protection"] .btn-icon {
+    [data-theme="hacker"] .btn-icon {
       color: #fff !important;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="light"] .btn-icon {
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="light"] .btn-icon:hover {
+      background: #f8fafc;
+    }
+
+    [data-theme="light"] .badge {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
     }
 
     .btn-icon:hover {
@@ -360,17 +375,23 @@
     .btn-icon i {
       width: 18px;
       height: 18px;
-      color: #fff;
+      color: inherit;
     }
 
     .badge {
       padding: 4px 12px;
       border-radius: 100px;
       background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--card-border);
       font-size: 0.75rem;
       font-weight: 600;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .badge,
+    [data-theme="hacker"] .badge {
       color: #fff;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .reveal {
