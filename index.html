@@ -50,7 +50,17 @@
     }
 
     [data-theme="hacker"] * {
-      text-shadow: 0 0 2px rgba(0, 255, 65, 0.3);
+      text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+    }
+
+    [data-theme="hacker"] .card {
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+      border-color: rgba(0, 255, 65, 0.3);
+    }
+
+    [data-theme="hacker"] .card:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 65, 0.2);
+      border-color: rgba(0, 255, 65, 0.5);
     }
 
     /* Hacker Mode Scanline Effect */
@@ -70,16 +80,16 @@
     }
 
     [data-theme="light"] {
-      --accent-primary: #4f46e5;
-      --accent-secondary: #0284c7;
-      --bg-gradient: radial-gradient(circle at top right, #e2e8f0 0%, #cbd5e1 100%);
-      --card-bg: rgba(255, 255, 255, 0.6);
-      --card-border: rgba(79, 70, 229, 0.1);
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --nav-bg: rgba(226, 232, 240, 0.95);
-      --overlay-bg: rgba(255, 255, 255, 0.95);
-      --brand-gradient: linear-gradient(135deg, #4338ca, #0369a1);
+      --accent-primary: #6366f1;
+      --accent-secondary: #0ea5e9;
+      --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --card-border: rgba(99, 102, 241, 0.1);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --nav-bg: rgba(248, 250, 252, 0.8);
+      --overlay-bg: rgba(255, 255, 255, 0.9);
+      --brand-gradient: linear-gradient(135deg, #6366f1, #0ea5e9);
     }
 
     * {
@@ -94,59 +104,44 @@
     }
 
     body {
-      background: var(--bg-gradient);
+      background: transparent;
       color: var(--text-main);
       overflow-x: hidden;
       filter: var(--eye-filter);
       transition: filter 0.5s ease, background 0.5s ease, color 0.5s ease;
     }
 
-    /* Mesh Gradient Background */
-    .mesh-bg {
+    /* Background Animations Container */
+    .bg-animations {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: -1;
       overflow: hidden;
-      opacity: 0.5;
-      filter: blur(100px);
+      pointer-events: none;
+      background: var(--bg-gradient);
     }
 
-    .mesh-ball {
+    #bg-canvas {
       position: absolute;
-      border-radius: 50%;
-      animation: float 20s infinite alternate;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transition: opacity 1s ease;
     }
 
-    .ball-1 {
-      width: 400px;
-      height: 400px;
-      background: var(--accent-primary);
-      top: -10%;
-      right: -5%;
-      opacity: 0.2;
+    [data-theme="hacker"] #bg-canvas {
+      opacity: 0.8;
     }
 
-    .ball-2 {
-      width: 350px;
-      height: 350px;
-      background: var(--accent-secondary);
-      bottom: -10%;
-      left: -5%;
-      opacity: 0.15;
-      animation-delay: -5s;
+    [data-theme="light"] #bg-canvas {
+      opacity: 0.6;
     }
 
-    @keyframes float {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-
-      100% {
-        transform: translate(50px, 100px) rotate(15deg);
-      }
+    [data-theme="dark"] #bg-canvas {
+      opacity: 0.8;
     }
 
     .card {
@@ -469,9 +464,8 @@
 </head>
 
 <body class="min-h-screen antialiased">
-  <div class="mesh-bg">
-    <div class="mesh-ball ball-1"></div>
-    <div class="mesh-ball ball-2"></div>
+  <div class="bg-animations">
+    <canvas id="bg-canvas"></canvas>
   </div>
 
   <!-- NAV -->
@@ -1084,6 +1078,164 @@
       const val = document.getElementById('uptime-val');
       if (val) val.textContent = Math.floor(Math.random() * (999 - 100) + 100);
     }, 2000);
+
+    // Global Background Animation System
+    function initBackgroundAnimation() {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width, height;
+
+      // Matrix State
+      const fontSize = 14;
+      let columns, drops;
+
+      // Particles and State
+      let particles = [];
+      let shootingStars = [];
+      const particleCount = 150; // More for stars
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = width / fontSize;
+        drops = Array(Math.ceil(columns)).fill(1);
+        initParticles();
+      }
+
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 1.5 + 0.5,
+            blinkSpeed: 0.01 + Math.random() * 0.03,
+            alpha: Math.random(),
+            color: '#ffffff',
+            // For Light Mode (Large Mesh Blobs)
+            meshX: Math.random() * width,
+            meshY: Math.random() * height,
+            meshSize: Math.random() * 300 + 200,
+            mvX: (Math.random() - 0.5) * 1.5,
+            mvY: (Math.random() - 0.5) * 1.5
+          });
+        }
+      }
+
+      function createShootingStar() {
+        if (Math.random() > 0.98 && shootingStars.length < 3) {
+          shootingStars.push({
+            x: Math.random() * width,
+            y: Math.random() * height / 2,
+            vx: Math.random() * 10 + 10,
+            vy: Math.random() * 5 + 5,
+            len: Math.random() * 80 + 50,
+            alpha: 1
+          });
+        }
+      }
+
+      function drawHacker() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = String.fromCharCode(Math.floor(Math.random() * 128));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      function drawDark() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Stars
+        particles.forEach(p => {
+          p.alpha += p.blinkSpeed;
+          if (p.alpha > 1 || p.alpha < 0) p.blinkSpeed *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, p.alpha)})`;
+          ctx.fill();
+        });
+
+        // Shooting Stars
+        createShootingStar();
+        shootingStars = shootingStars.filter(s => s.alpha > 0);
+        shootingStars.forEach(s => {
+          s.x += s.vx;
+          s.y += s.vy;
+          s.alpha -= 0.02;
+
+          ctx.beginPath();
+          const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.len, s.y - s.len);
+          grad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+          grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 2;
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(s.x - s.len, s.y - s.len);
+          ctx.stroke();
+        });
+      }
+
+      function drawLight() {
+        ctx.clearRect(0, 0, width, height);
+        // Only use first 5 particles for large mesh blobs for performance
+        const meshCount = 6;
+        for (let i = 0; i < meshCount; i++) {
+          const p = particles[i];
+          p.meshX += p.mvX;
+          p.meshY += p.mvY;
+
+          if (p.meshX < -p.meshSize) p.meshX = width + p.meshSize;
+          if (p.meshX > width + p.meshSize) p.meshX = -p.meshSize;
+          if (p.meshY < -p.meshSize) p.meshY = height + p.meshSize;
+          if (p.meshY > height + p.meshSize) p.meshY = -p.meshSize;
+
+          const gradient = ctx.createRadialGradient(p.meshX, p.meshY, 0, p.meshX, p.meshY, p.meshSize);
+          const baseColor = i % 2 === 0 ? '79, 70, 229' : '2, 132, 199'; // Indigo / Sky Blue
+          gradient.addColorStop(0, `rgba(${baseColor}, 0.15)`);
+          gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
+
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(p.meshX, p.meshY, p.meshSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      let lastTheme = null;
+
+      function animate() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+        if (theme !== lastTheme) {
+          ctx.clearRect(0, 0, width, height);
+          lastTheme = theme;
+        }
+
+        if (theme === 'hacker') {
+          drawHacker();
+        } else if (theme === 'light') {
+          drawLight();
+        } else {
+          drawDark();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    }
+    initBackgroundAnimation();
+
 
     // Initialize theme UI
     const savedThemeInput = localStorage.getItem('portfolio-theme') || 'dark';
