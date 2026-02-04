@@ -1,0 +1,262 @@
+lucide.createIcons();
+
+// Theme Selection Logic
+document.querySelectorAll('[data-theme-set]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const theme = btn.getAttribute('data-theme-set');
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('portfolio-theme', theme);
+
+        // Visual feedback
+        const menuBtn = document.getElementById('themeMenuBtn');
+        if (theme === 'hacker') {
+            menuBtn.style.borderColor = '#00ff41';
+        } else {
+            menuBtn.style.borderColor = 'var(--card-border)';
+        }
+
+        lucide.createIcons();
+        updateStatusBar();
+    });
+});
+
+function updateStatusBar() {
+    const statusBar = document.getElementById('status-bar');
+    const footerIcon = document.getElementById('footer-icon');
+    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    if (theme === 'hacker') {
+        if (footerIcon) footerIcon.setAttribute('data-lucide', 'shield-check');
+        statusBar.innerHTML = `
+      <span class="text-[var(--accent-primary)] animate-pulse">[ ACCESS: RED_ADMIN ]</span>
+      <span class="mx-2 opacity-30">|</span>
+      <span class="text-[var(--text-main)]">NET_TRAFFIC: <span id="uptime-val">842</span> KB/S</span>
+    `;
+    } else {
+        if (footerIcon) footerIcon.setAttribute('data-lucide', 'heart');
+        statusBar.innerHTML = `
+      <span class="text-[var(--accent-primary)]">THANK YOU FOR VISITING!</span>
+      <span class="ml-2 inline-block w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444] animate-pulse"></span>
+    `;
+    }
+    lucide.createIcons();
+}
+updateStatusBar();
+
+// Mock live traffic update
+setInterval(() => {
+    const val = document.getElementById('uptime-val');
+    if (val) val.textContent = Math.floor(Math.random() * (999 - 100) + 100);
+}, 2000);
+
+// Global Background Animation System
+function initBackgroundAnimation() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    // Matrix State
+    const fontSize = 14;
+    let columns, drops;
+
+    // Particles and State
+    let particles = [];
+    let shootingStars = [];
+    const particleCount = 150; // More for stars
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = width / fontSize;
+        drops = Array(Math.ceil(columns)).fill(1);
+        initParticles();
+    }
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 1.5 + 0.5,
+                blinkSpeed: 0.01 + Math.random() * 0.03,
+                alpha: Math.random(),
+                color: '#ffffff',
+                // For Light Mode (Large Mesh Blobs)
+                meshX: Math.random() * width,
+                meshY: Math.random() * height,
+                meshSize: Math.random() * 300 + 200,
+                mvX: (Math.random() - 0.5) * 1.5,
+                mvY: (Math.random() - 0.5) * 1.5
+            });
+        }
+    }
+
+    function createShootingStar() {
+        if (Math.random() > 0.98 && shootingStars.length < 3) {
+            shootingStars.push({
+                x: Math.random() * width,
+                y: Math.random() * height / 2,
+                vx: Math.random() * 10 + 10,
+                vy: Math.random() * 5 + 5,
+                len: Math.random() * 80 + 50,
+                alpha: 1
+            });
+        }
+    }
+
+    function drawHacker() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = String.fromCharCode(Math.floor(Math.random() * 128));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+
+    function drawDark() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Stars
+        particles.forEach(p => {
+            p.alpha += p.blinkSpeed;
+            if (p.alpha > 1 || p.alpha < 0) p.blinkSpeed *= -1;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, p.alpha)})`;
+            ctx.fill();
+        });
+
+        // Shooting Stars
+        createShootingStar();
+        shootingStars = shootingStars.filter(s => s.alpha > 0);
+        shootingStars.forEach(s => {
+            s.x += s.vx;
+            s.y += s.vy;
+            s.alpha -= 0.02;
+
+            ctx.beginPath();
+            const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.len, s.y - s.len);
+            grad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 2;
+            ctx.moveTo(s.x, s.y);
+            ctx.lineTo(s.x - s.len, s.y - s.len);
+            ctx.stroke();
+        });
+    }
+
+    function drawLight() {
+        ctx.clearRect(0, 0, width, height);
+        // Only use first meshCount particles for large mesh blobs for performance
+        const meshCount = 6;
+        for (let i = 0; i < meshCount; i++) {
+            const p = particles[i];
+            p.meshX += p.mvX;
+            p.meshY += p.mvY;
+
+            if (p.meshX < -p.meshSize) p.meshX = width + p.meshSize;
+            if (p.meshX > width + p.meshSize) p.meshX = -p.meshSize;
+            if (p.meshY < -p.meshSize) p.meshY = height + p.meshSize;
+            if (p.meshY > height + p.meshSize) p.meshY = -p.meshSize;
+
+            const gradient = ctx.createRadialGradient(p.meshX, p.meshY, 0, p.meshX, p.meshY, p.meshSize);
+            const baseColor = i % 2 === 0 ? '79, 70, 229' : '2, 132, 199'; // Indigo / Sky Blue
+            gradient.addColorStop(0, `rgba(${baseColor}, 0.15)`);
+            gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(p.meshX, p.meshY, p.meshSize, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    let lastTheme = null;
+
+    function animate() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+        if (theme !== lastTheme) {
+            ctx.clearRect(0, 0, width, height);
+            lastTheme = theme;
+        }
+
+        if (theme === 'hacker') {
+            drawHacker();
+        } else if (theme === 'light') {
+            drawLight();
+        } else {
+            drawDark();
+        }
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+}
+initBackgroundAnimation();
+
+
+// Initialize theme UI
+const savedThemeInput = localStorage.getItem('portfolio-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedThemeInput);
+if (savedThemeInput === 'hacker') {
+    const themeMenuBtn = document.getElementById('themeMenuBtn');
+    if (themeMenuBtn) themeMenuBtn.style.borderColor = '#00ff41';
+}
+
+const menuBtn = document.getElementById('menuBtn');
+menuBtn && menuBtn.addEventListener('click', () => {
+    alert('Navigation on mobile: use sections. (This demo keeps header minimal.)');
+});
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+        else { entry.target.classList.remove('visible'); }
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const el = document.querySelector(href);
+            el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+async function fetchLeetCodeStats() {
+    try {
+        const response = await fetch('https://leetcode-stats-api.herokuapp.com/lgsNroNVgg/');
+        const data = await response.json();
+        if (data.status === 'success') {
+            document.getElementById('leetcode-easy').textContent = `Easy: ${data.easySolved}`;
+            document.getElementById('leetcode-med').textContent = `Med: ${data.mediumSolved}`;
+            document.getElementById('leetcode-hard').textContent = `Hard: ${data.hardSolved}`;
+
+            const progress = (data.totalSolved / 50) * 100; // Assuming 50 as a milestone for the bar
+            document.getElementById('leetcode-progress').style.width = `${Math.min(progress, 100)}%`;
+
+            const activeDays = Object.keys(data.submissionCalendar).length;
+            document.getElementById('leetcode-active-days').textContent = `Total Active Days: ${activeDays}`;
+        }
+    } catch (error) {
+        console.error('Error fetching LeetCode stats:', error);
+    }
+}
+fetchLeetCodeStats();
