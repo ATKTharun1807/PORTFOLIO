@@ -307,6 +307,35 @@ body {
   }
 }
 
+/* CineField: Floating Stars */
+.visual-cinefield {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-cinefield .star {
+  position: absolute;
+  color: #fbbf24;
+  opacity: 0.5;
+  animation: float-star 3s ease-in-out infinite;
+}
+
+@keyframes float-star {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
 .btn-icon {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
