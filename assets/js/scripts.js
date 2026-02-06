@@ -189,8 +189,8 @@ function initBackgroundAnimation() {
 
             // Draw Node
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
-            ctx.fillStyle = i % 2 === 0 ? 'rgba(99, 102, 241, 0.15)' : 'rgba(14, 165, 233, 0.15)';
+            ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+            ctx.fillStyle = i % 2 === 0 ? 'rgba(99, 102, 241, 0.4)' : 'rgba(14, 165, 233, 0.4)';
             ctx.fill();
 
             // Draw Lines
@@ -204,7 +204,7 @@ function initBackgroundAnimation() {
                     ctx.beginPath();
                     ctx.moveTo(p.x, p.y);
                     ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(99, 102, 241, ${0.08 * (1 - dist / 150)})`;
+                    ctx.strokeStyle = `rgba(99, 102, 241, ${0.3 * (1 - dist / 150)})`;
                     ctx.stroke();
                 }
             }
