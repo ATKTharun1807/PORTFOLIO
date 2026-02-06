@@ -282,28 +282,76 @@ body {
   }
 }
 
-/* Vote Chain: Rotating Network */
+/* Vote Chain: Voting Animation */
 .visual-votechain {
-  background: linear-gradient(45deg, #064e3b, #065f46);
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.blockchain-grid {
+.ballot-paper {
   position: absolute;
-  inset: -50%;
-  background-image:
-    radial-gradient(circle at center, #10b981 1px, transparent 1px);
-  background-size: 30px 30px;
-  transform: rotate(15deg);
-  animation: grid-move 20s linear infinite;
+  top: 10%;
+  animation: drop-ballot 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  color: #10b981;
 }
 
-@keyframes grid-move {
-  from {
-    transform: rotate(15deg) translateY(0);
+.ballot-box-icon {
+  position: relative;
+  z-index: 2;
+  color: #059669;
+  opacity: 0.8;
+  transform: translateY(20px);
+}
+
+.vote-tick {
+  position: absolute;
+  bottom: 35%;
+  transform: scale(0);
+  animation: show-tick 3s ease-in-out infinite;
+  color: #34d399;
+}
+
+@keyframes drop-ballot {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 0;
   }
 
-  to {
-    transform: rotate(15deg) translateY(30px);
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(60px) rotate(-5deg);
+    opacity: 1;
+  }
+
+  60%,
+  100% {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+}
+
+@keyframes show-tick {
+
+  0%,
+  55% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  65% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  75%,
+  100% {
+    transform: scale(1);
+    opacity: 0;
   }
 }
 
