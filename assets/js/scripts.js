@@ -154,30 +154,61 @@ function initBackgroundAnimation() {
         });
     }
 
+    let mouse = { x: null, y: null, radius: 150 };
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
     function drawLight() {
         ctx.clearRect(0, 0, width, height);
-        // Only use first meshCount particles for large mesh blobs for performance
-        const meshCount = 6;
-        for (let i = 0; i < meshCount; i++) {
-            const p = particles[i];
-            p.meshX += p.mvX;
-            p.meshY += p.mvY;
 
-            if (p.meshX < -p.meshSize) p.meshX = width + p.meshSize;
-            if (p.meshX > width + p.meshSize) p.meshX = -p.meshSize;
-            if (p.meshY < -p.meshSize) p.meshY = height + p.meshSize;
-            if (p.meshY > height + p.meshSize) p.meshY = -p.meshSize;
+        particles.forEach((p, i) => {
+            // Movement
+            p.x += p.mvX * 0.5;
+            p.y += p.mvY * 0.5;
 
-            const gradient = ctx.createRadialGradient(p.meshX, p.meshY, 0, p.meshX, p.meshY, p.meshSize);
-            const baseColor = i % 2 === 0 ? '79, 70, 229' : '2, 132, 199'; // Indigo / Sky Blue
-            gradient.addColorStop(0, `rgba(${baseColor}, 0.15)`);
-            gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
+            // Boundary
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
 
-            ctx.fillStyle = gradient;
+            // Mouse Repulsion
+            if (mouse.x) {
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < mouse.radius) {
+                    const angle = Math.atan2(dy, dx);
+                    const force = (mouse.radius - dist) / mouse.radius;
+                    p.x += Math.cos(angle) * force * 2;
+                    p.y += Math.sin(angle) * force * 2;
+                }
+            }
+
+            // Draw Node
             ctx.beginPath();
-            ctx.arc(p.meshX, p.meshY, p.meshSize, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = i % 2 === 0 ? 'rgba(99, 102, 241, 0.15)' : 'rgba(14, 165, 233, 0.15)';
             ctx.fill();
-        }
+
+            // Draw Lines
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 150) {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(99, 102, 241, ${0.08 * (1 - dist / 150)})`;
+                    ctx.stroke();
+                }
+            }
+        });
     }
 
     let lastTheme = null;
