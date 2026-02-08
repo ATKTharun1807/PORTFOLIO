@@ -376,9 +376,14 @@ function renderHeatmap(submissionCalendar) {
 
         if (currentMonth !== lastMonth) {
             const monthLabel = document.createElement('div');
-            monthLabel.className = 'absolute -top-5 left-0 text-[9px] text-[var(--text-muted)] opacity-60 font-medium font-sans';
+            monthLabel.className = 'absolute -top-5 left-0 text-[9px] text-[var(--text-muted)] opacity-80 font-bold font-sans tracking-wider';
             monthLabel.textContent = months[currentMonth];
             weekColumn.appendChild(monthLabel);
+
+            // Add gap between months
+            if (w > 0) {
+                weekColumn.classList.add('ml-3'); // Add spacing before new month
+            }
             lastMonth = currentMonth;
         }
 
