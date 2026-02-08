@@ -275,22 +275,144 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 async function fetchLeetCodeStats() {
+    const calendarGrid = document.getElementById('calendar-grid');
     try {
         const response = await fetch('https://leetcode-stats-api.herokuapp.com/lgsNroNVgg/');
         const data = await response.json();
+
         if (data.status === 'success') {
+            // Update Text Stats
             document.getElementById('leetcode-easy').textContent = `Easy: ${data.easySolved}`;
             document.getElementById('leetcode-med').textContent = `Med: ${data.mediumSolved}`;
             document.getElementById('leetcode-hard').textContent = `Hard: ${data.hardSolved}`;
 
-            const progress = (data.totalSolved / 50) * 100; // Assuming 50 as a milestone for the bar
+            const progress = (data.totalSolved / 100) * 100; // Let's use 100 as a goal for the bar
             document.getElementById('leetcode-progress').style.width = `${Math.min(progress, 100)}%`;
 
             const activeDays = Object.keys(data.submissionCalendar).length;
             document.getElementById('leetcode-active-days').textContent = `Total Active Days: ${activeDays}`;
+
+            // Calculate Max Streak
+            const streak = calculateMaxStreak(data.submissionCalendar);
+            const streakEl = document.getElementById('leetcode-streak');
+            if (streakEl) streakEl.textContent = `Max Streak: ${streak}`;
+
+            // Render Heatmap
+            renderHeatmap(data.submissionCalendar);
         }
     } catch (error) {
         console.error('Error fetching LeetCode stats:', error);
+        if (calendarGrid) {
+            calendarGrid.innerHTML = `<div class="text-xs text-red-500 opacity-50 p-4">Failed to load submission data.</div>`;
+        }
     }
 }
+
+function calculateMaxStreak(submissionCalendar) {
+    const timestamps = Object.keys(submissionCalendar).map(Number).sort((a, b) => a - b);
+    if (timestamps.length === 0) return 0;
+
+    let maxStreak = 0;
+    let currentStreak = 0;
+    let prevDate = null;
+
+    timestamps.forEach(ts => {
+        const currentDate = new Date(ts * 1000);
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (prevDate) {
+            const diffDays = (currentDate - prevDate) / (1000 * 60 * 60 * 24);
+            if (diffDays === 1) {
+                currentStreak++;
+            } else if (diffDays > 1) {
+                currentStreak = 1;
+            }
+        } else {
+            currentStreak = 1;
+        }
+
+        maxStreak = Math.max(maxStreak, currentStreak);
+        prevDate = currentDate;
+    });
+
+    return maxStreak;
+}
+
+function renderHeatmap(submissionCalendar) {
+    const calendarGrid = document.getElementById('calendar-grid');
+    if (!calendarGrid) return;
+    calendarGrid.innerHTML = ''; // Clear loading state
+
+    const today = new Date();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+    // Adjust to the start of the week (Sunday)
+    const startDate = new Date(oneYearAgo);
+    startDate.setDate(startDate.getDate() - startDate.getDay());
+
+    const calendarData = {};
+    Object.entries(submissionCalendar).forEach(([timestamp, count]) => {
+        const date = new Date(timestamp * 1000).toDateString();
+        calendarData[date] = count;
+    });
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let lastMonth = -1;
+
+    // Create a container for the columns to handle month labels
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'flex gap-1';
+
+    // Create 53 weeks
+    for (let w = 0; w < 53; w++) {
+        const weekColumn = document.createElement('div');
+        weekColumn.className = 'flex flex-col gap-1 relative';
+
+        // Month label logic
+        const weekStartDate = new Date(startDate);
+        weekStartDate.setDate(startDate.getDate() + (w * 7));
+        const currentMonth = weekStartDate.getMonth();
+
+        if (currentMonth !== lastMonth) {
+            const monthLabel = document.createElement('div');
+            monthLabel.className = 'absolute -top-5 left-0 text-[9px] text-[var(--text-muted)] opacity-60 font-medium font-sans';
+            monthLabel.textContent = months[currentMonth];
+            weekColumn.appendChild(monthLabel);
+            lastMonth = currentMonth;
+        }
+
+        for (let d = 0; d < 7; d++) {
+            const currentDate = new Date(startDate);
+            currentDate.setDate(startDate.getDate() + (w * 7) + d);
+
+            if (currentDate > today) break;
+
+            const daySquare = document.createElement('div');
+            const count = calendarData[currentDate.toDateString()] || 0;
+
+            // Brighter "Light" Green Palette
+            let colorClass = 'bg-white/10'; // Empty
+            if (count > 0 && count <= 2) colorClass = 'bg-emerald-400/20';
+            else if (count > 2 && count <= 4) colorClass = 'bg-emerald-400/40';
+            else if (count > 4 && count <= 6) colorClass = 'bg-emerald-400/70';
+            else if (count > 6) colorClass = 'bg-emerald-400';
+
+            daySquare.className = `calendar-day ${colorClass}`;
+            daySquare.title = `${currentDate.toDateString()}: ${count} submissions`;
+
+            weekColumn.appendChild(daySquare);
+        }
+        gridContainer.appendChild(weekColumn);
+    }
+
+    calendarGrid.appendChild(gridContainer);
+
+    // Scroll to the end (most recent)
+    const container = document.getElementById('leetcode-calendar');
+    if (container) {
+        container.scrollLeft = container.scrollWidth;
+    }
+}
+
 fetchLeetCodeStats();

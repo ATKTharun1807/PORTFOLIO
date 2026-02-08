@@ -486,6 +486,34 @@
               challenges to sharpen problem-solving skills. Currently expanding LeetCode portfolio with consistent
               submissions.
             </p>
+
+            <!-- LeetCode Submission Calendar -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="text-xs text-[var(--text-muted)] font-medium">Submission Activity</div>
+                <div class="flex items-center gap-1.5 grayscale opacity-70 scale-75 origin-right">
+                  <span class="text-[10px] text-[var(--text-muted)]">Less</span>
+                  <div class="w-2.5 h-2.5 rounded-[2px] bg-white/10"></div>
+                  <div class="w-2.5 h-2.5 rounded-[2px] bg-emerald-400/20"></div>
+                  <div class="w-2.5 h-2.5 rounded-[2px] bg-emerald-400/40"></div>
+                  <div class="w-2.5 h-2.5 rounded-[2px] bg-emerald-400/70"></div>
+                  <div class="w-2.5 h-2.5 rounded-[2px] bg-emerald-400"></div>
+                  <span class="text-[10px] text-[var(--text-muted)]">More</span>
+                </div>
+              </div>
+              <div id="leetcode-calendar"
+                class="pt-8 pb-4 px-4 rounded-xl bg-black/20 border border-white/5 overflow-x-auto custom-scrollbar">
+                <div class="flex gap-1" id="calendar-grid">
+                  <!-- JS will inject the heatmap here -->
+                  <div class="animate-pulse flex gap-1">
+                    <div
+                      class="w-full h-24 bg-white/5 rounded-lg flex items-center justify-center italic text-[10px] text-[var(--text-muted)]">
+                      Syncing submissions...
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <a href="https://leetcode.com/u/lgsNroNVgg/" target="_blank" class="btn-primary w-full mt-6 justify-center">
